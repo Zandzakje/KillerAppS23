@@ -1,0 +1,51 @@
+﻿@model RpgApp.Models.ViewModels.GlobalViewModel
+
+@{
+    ViewBag.Title = "Summary";
+}
+
+<link href="../Content/Style.css" rel="stylesheet"/>
+<script src="../Content/JavaScript.js"></script>
+
+<h2>Summary</h2>
+
+<div id="ImgUser" data-name="@Model.user.Class"></div>
+
+<body onload="UserImage()">
+    <form method="post" action="@Url.Action("Index", "Surface")">
+        <div id="summaryPage">
+            <table id="tableStats">
+                <tr>
+                    <th>Name: @Model.user.Name</th>
+                </tr>
+                <tr>
+                    <th>Class: @Model.user.Class</th>
+                </tr>
+                <tr>
+                    <th>Level: @Model.user.Level</th>
+                </tr>
+                <tr>
+                    <th>HP: @Model.user.MaxHp/@Model.user.MaxHp</th>
+                </tr>
+                <tr>
+                    <th>Attack: @Model.user.Attack</th>
+                </tr>
+                <tr>
+                    <th>Defense: @Model.user.Defense</th>
+                </tr>
+                <tr>
+                    <th>Speed: @Model.user.Speed</th>
+                </tr>
+                <tr>
+                    <th>Exp: @Model.user.TotalExp</th>
+                </tr>
+            </table>
+
+            <img src="" id="2" class="summaryImage" alt="" width="210" height="210"/><br />
+        </div>
+        <div>
+            <input id="Submit1" type="submit" value="Back" />
+        </div>
+    </form>
+</body>
+

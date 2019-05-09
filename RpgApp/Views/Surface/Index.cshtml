@@ -1,0 +1,24 @@
+﻿@model RpgApp.Models.ViewModels.GlobalViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+<h2>Welcome, @Model.user.Name</h2>
+
+<form method="post" action="@Url.Action("Summary", "Surface")">
+    <div>
+        <input id="Submit1" type="submit" value="Summary" />
+    </div>
+</form>
+
+<form method="post" action="@Url.Action("Combat", "Surface")">
+    <div>
+        <input id="Submit1" type="submit" value="Battle!" />
+    </div>
+</form>
+
+<form method="post" action="@Url.Action("Logout", "Surface")">
+    <div>
+        <input id="Submit1" type="submit" value="Logout" />
+    </div>
+</form>

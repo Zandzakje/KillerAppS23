@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewBag.Title = "Combat";
+}
+
+<link href="../Content/Style.css" rel="stylesheet">
+<script src="../Content/JavaScript.js"></script>
+
+<div id="ImgUser" data-name="@Model.user.Class"></div>
+<div id="ImgEnemy" data-name="@Model.enemy.Name"></div>
+
+<body onload="BattleImages()">
+    <h2>Combat</h2>
+
+    <div id="player">
+        <label>@Model.user.Name</label><br />
+        <label>lv. @Model.user.Level</label><br />
+        <meter id="HpUser" name="player" value="@Model.user.CurrentHp" min="0" max="@Model.user.MaxHp" low="@Model.user.MinHp" high="@Model.user.HalfHp" optimum="@Model.user.MaxHp"></meter><br />
+        <label>HP: @Model.user.CurrentHp/@Model.user.MaxHp</label>
+    </div>
+    <div id="enemy">
+        <label>@Model.enemy.Name</label><br />
+        <label>lv. @Model.enemy.Level</label><br />
+        <meter id="HpEnemy" name="enemy" value="@Model.enemy.CurrentHp" min="0" max="@Model.enemy.MaxHp" low="@Model.enemy.MinHp" high="@Model.enemy.HalfHp" optimum="@Model.enemy.MaxHp"></meter><br />
+        <label>HP: @Model.enemy.CurrentHp/@Model.enemy.MaxHp</label>
+    </div>
+    <div id="imageBlockLeft">
+        <img src="" id="2" />
+        <form method="post" action="@Url.Action("Attack", "Combat")">
+            <input id="Button1" type="submit" value="Attack" />
+        </form>
+        <form method="post" action="@Url.Action("Escape", "Combat")">
+            <input id="Button1" type="submit" value="Escape" />
+        </form>
+    </div>
+    <div id="imageBlockRight">
+        <img src="" id="3" />
+    </div>
+    <div>
+        @if (Model.user.Speed >= Model.enemy.Speed)
+        {
+            <label>@Model.user.Message</label><br />
+            <label>@Model.enemy.Message</label>
+        }
+        else
+        {
+            <label>@Model.enemy.Message</label><br />
+            <label>@Model.user.Message</label>
+        }
+    </div>
+</body>

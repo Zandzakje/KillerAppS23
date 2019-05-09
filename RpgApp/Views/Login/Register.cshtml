@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewBag.Title = "Register";
+}
+
+<script src="../Content/JavaScript.js"></script>
+
+<h2>Register</h2>
+
+<form method="post" action="@Url.Action("RegisterCheck", "Login")">
+    <div>
+        <label>Username:</label>
+            <input id="Text1" name="Name" type="text" required /><br />
+        <label>Password:</label>
+            <input id="Password1" name="Password" type="password" required /><br />
+        <label>Class:</label>
+            <select id="Select1" name="Class" onchange="RegisterImage(value)">
+                <option value="Knight">Knight</option>
+                <option value="Valkyrie">Valkyrie</option>
+                <option value="Spooky">Spooky</option>
+            </select>
+        <img src="../Images/Knight_Placeholder.png" id="1" alt="" width="400" height="400"/><br />
+        <input id="Submit1" type="submit" value="Register" />
+    </div>
+</form>

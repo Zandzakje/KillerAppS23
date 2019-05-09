@@ -1,0 +1,29 @@
+﻿@model RpgApp.Models.ViewModels.GlobalViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Login</h2>
+
+<form method="post" action="@Url.Action("LoginCheck", "Login")">
+    <div>
+        <label>Username:</label>
+            <input id="Text1" name="Name" type="text" required/><br />
+        <label>Password:</label>
+            <input id="Password1" name="Password" type="password" required/><br />
+            <input id="Submit1" type="submit" value="Login" />
+        <br/>
+        <br/>
+            @if(Model != null)
+            {
+                <p>@Model.ErrorMessage</p>
+            }
+            else
+            {
+                <br/>
+            }
+        <br/>
+        No account? Click <a href=@Url.Action("Register", "Login")>here</a> to register.
+    </div>
+</form>

@@ -1,0 +1,91 @@
+﻿#summaryPage {
+    background-color: black;
+    color: white;
+    padding: 15px;
+    width: 440px;
+    height: 240px;
+}
+
+#tableStats {
+    padding: 40px;
+    float: left;
+    width: 200px;
+    height: 100px;
+    background-color: black;
+    color: white;
+}
+
+/* id van de image bij de "summary" pagina. */
+#1 {
+    float: right;
+    width: 220px;
+    height: 220px;
+    /*border-width: 5px;
+    border-style: solid;
+    border-color: #732673;*/
+}
+
+.summaryImage {
+    background-image: linear-gradient(#000000, #990099);
+}
+
+meter{
+    width: 300px;
+    height: 30px;
+}
+
+#player{
+    padding: 15px;
+    background-color: black;
+    color: white;
+    width: 330px;
+    float: left;
+}
+
+#enemy {
+    padding: 15px;
+    background-color: black;
+    color: white;
+    width: 330px;
+    float: right;
+}
+
+#imageBlockLeft {
+    /*background-color: lawngreen;*/
+    width: 330px;
+    height: 300px;
+    line-height: 300px;
+    float: left;
+    clear: both;
+    display: block;
+    margin: auto;
+}
+
+#imageBlockLeft img {
+    vertical-align: middle;
+    width: 330px;
+    height: auto;
+}
+
+#imageBlockRight {
+    /*background-color: lawngreen;*/
+    width: 330px;
+    height: 300px;
+    line-height: 300px;
+    float: right;
+    display: block;
+    margin: auto;
+}
+
+#imageBlockRight img {
+    vertical-align: middle;
+    width: 330px;
+    height: auto;
+}
+
+#Button1 {
+    line-height: 30px;
+    float: left;
+    display: block;
+    margin: auto;
+}
