@@ -109,75 +109,107 @@ namespace RpgApp_Logic
         {
             if(enemy.CurrentHp <= 0)
             {
-                //Experience(user, enemy);
-
-                if (user.Speed >= enemy.Speed && user.TotalExp < user.NextLevel)
-                {
-                    enemy.CurrentHp = 0;
-                    enemy.Message = "";
-                    user.Message = user.Name + " dealt " + damageUser + " damage, You win!";
-                }
-                else if (user.Speed < enemy.Speed && user.TotalExp < user.NextLevel)
-                {
-                    enemy.CurrentHp = 0;
-                    user.Message = user.Name + " dealt " + damageUser + " damage, You win!";
-                }
-                else if (user.Speed >= enemy.Speed && user.TotalExp >= user.NextLevel)
-                {
-                    enemy.CurrentHp = 0;
-                    enemy.Message = "";
-                    user.Message = user.Name + " dealt " + damageUser + " damage, You win! Level up!";
-                }
-                else if (user.Speed < enemy.Speed && user.TotalExp >= user.NextLevel)
-                {
-                    enemy.CurrentHp = 0;
-                    user.Message = user.Name + " dealt " + damageUser + " damage, You win! Level up!";
-                }
+                Experience(user, enemy);
             }
             else
             {
-                if (user.CurrentHp <= 0 && user.Speed < enemy.Speed)
-                {
-                    user.CurrentHp = 0;
-                    user.Message = "";
-                    enemy.Message = enemy.Name + " dealt " + damageEnemy + " damage, You are defeated!";
-                }
-                else if (user.CurrentHp <= 0 && user.Speed >= enemy.Speed)
-                {
-                    user.CurrentHp = 0;
-                    enemy.Message = enemy.Name + " dealt " + damageEnemy + " damage, You are defeated!";
-                }
-                else
-                {
-                    user.Message = user.Name + " dealt " + damageUser + " damage!";
-                    enemy.Message = enemy.Name + " dealt " + damageEnemy + " damage!";
-                }
+                EnemyMessage(user, enemy);
             }
         }
 
-        public int ExpEarned(User user)
+        public int ExpEarned(User user, Enemy enemy)
         {
-            user.Exp = user.Level * 15;
+            user.Exp = (user.Level * user.Level) + (enemy.MaxHp / 10);
+
             return user.Exp;
+        }
+
+        public void UserMessage(User user, Enemy enemy)
+        {
+            if (user.Speed >= enemy.Speed && user.CurrentExp < user.NextExp)
+            {
+                enemy.CurrentHp = 0;
+                enemy.Message = "";
+                user.Message = user.Name + " dealt " + damageUser + " damage, You win!";
+                user.ExpMessage = "You earned " + user.Exp + " Exp!";
+            }
+            else if (user.Speed < enemy.Speed && user.CurrentExp < user.NextExp)
+            {
+                enemy.CurrentHp = 0;
+                user.Message = user.Name + " dealt " + damageUser + " damage, You win!";
+                user.ExpMessage = "You earned " + user.Exp + " Exp!";
+            }
+            else if (user.Speed >= enemy.Speed && user.CurrentExp >= user.NextExp)
+            {
+                enemy.CurrentHp = 0;
+                enemy.Message = "";
+                user.Message = user.Name + " dealt " + damageUser + " damage, You win!";
+                user.ExpMessage = "You earned " + user.Exp + " Exp!" + " Level up!";
+            }
+            else if (user.Speed < enemy.Speed && user.CurrentExp >= user.NextExp)
+            {
+                enemy.CurrentHp = 0;
+                user.Message = user.Name + " dealt " + damageUser + " damage, You win!";
+                user.ExpMessage = "You earned " + user.Exp + " Exp!" + " Level up!";
+            }
+        }
+
+        public void EnemyMessage(User user, Enemy enemy)
+        {
+            if (user.CurrentHp <= 0 && user.Speed < enemy.Speed)
+            {
+                user.CurrentHp = 0;
+                user.Message = "";
+                enemy.Message = enemy.Name + " dealt " + damageEnemy + " damage, You are defeated!";
+            }
+            else if (user.CurrentHp <= 0 && user.Speed >= enemy.Speed)
+            {
+                user.CurrentHp = 0;
+                enemy.Message = enemy.Name + " dealt " + damageEnemy + " damage, You are defeated!";
+            }
+            else
+            {
+                user.Message = user.Name + " dealt " + damageUser + " damage!";
+                enemy.Message = enemy.Name + " dealt " + damageEnemy + " damage!";
+            }
         }
 
         public int NxtLv(User user)
         {
-            user.NextLevel = user.Level * user.Level * user.Level;
-            return user.NextLevel;
+            user.NextExp = user.Level * user.Level * user.Level;
+            return user.NextExp;
         }
 
         public void Experience(User user, Enemy enemy)
         {
-            user.Exp = ExpEarned(user);
-            user.NextLevel = NxtLv(user);
-
+            user.Exp = ExpEarned(user, enemy);
+            user.CurrentExp = user.CurrentExp + user.Exp;
             user.TotalExp = user.TotalExp + user.Exp;
+            
+            UserMessage(user, enemy);
 
-            if(user.TotalExp >= user.NextLevel)
+            if(user.CurrentExp >= user.NextExp)
             {
                 user.Level++;
                 LevelUp(user);
+
+                if (user.Level == 50)
+                {
+                    if (user.Class == "Knight" || user.Class == "Huntress" || user.Class == "Spooky")
+                    {
+                        ClassUp(user);
+                    }
+                }
+
+                int RemainingExp = 0;
+
+                if(user.CurrentExp > user.NextExp)
+                {
+                    RemainingExp = user.CurrentExp - user.NextExp;
+                }
+
+                user.CurrentExp = RemainingExp;
+                user.NextExp = NxtLv(user);
             }
             else
             {
@@ -188,9 +220,9 @@ namespace RpgApp_Logic
         public void LevelUp(User user)
         {
             Random statsUp = new Random();
-            int weak = statsUp.Next(0, 3);      // 0 t/m 2
-            int normal = statsUp.Next(2, 5);    // 2 t/m 4
-            int strong = statsUp.Next(4, 7);    // 4 t/m 6
+            int weak = statsUp.Next(1, 4);      // 0 t/m 3
+            int normal = statsUp.Next(2, 5);    // 1 t/m 4
+            int strong = statsUp.Next(3, 6);    // 2 t/m 5
 
             switch (user.Class)
             {
@@ -215,6 +247,25 @@ namespace RpgApp_Logic
             }
         }
 
+        public void ClassUp(User user)
+        {
+            switch (user.Class)
+            {
+                case "Knight":
+                    user.ClassMessage = "Congratulations! Your class evolved from Knight to Paladin!";
+                    user.Class = "Paladin";
+                    break;
+                case "Huntress":
+                    user.ClassMessage = "Congratulations! Your class evolved from Huntress to Valkyrie!";
+                    user.Class = "Valkyrie";
+                    break;
+                case "Spooky":
+                    user.ClassMessage = "Congratulations! Your class evolved from Spooky to Nightmare!";
+                    user.Class = "Nightmare";
+                    break;
+            }
+        }
+
         public Enemy GetNewEnemy(int number)
         {
             return cs.NewEnemy(number);
@@ -235,15 +286,15 @@ namespace RpgApp_Logic
                         break;
                     case "Chomper":
                         enemy.Level++;
-                        enemy.MaxHp = enemy.MaxHp + 3;
-                        enemy.Attack = enemy.Attack + 4;
+                        enemy.MaxHp = enemy.MaxHp + 4;
+                        enemy.Attack = enemy.Attack + 3;
                         enemy.Defense = enemy.Defense + 2;
-                        enemy.Speed = enemy.Speed + 2;
+                        enemy.Speed = enemy.Speed + 1;
                         break;
                     case "Spikey":
                         enemy.Level++;
                         enemy.MaxHp = enemy.MaxHp + 3;
-                        enemy.Attack = enemy.Attack + 2;
+                        enemy.Attack = enemy.Attack + 1;
                         enemy.Defense = enemy.Defense + 4;
                         enemy.Speed = enemy.Speed + 2;
                         break;

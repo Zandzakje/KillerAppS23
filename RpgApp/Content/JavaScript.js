@@ -7,9 +7,9 @@ function RegisterImage(img)
             var aranaktu = document.getElementById('1');
             aranaktu.src = "../Images/Knight_Placeholder.png";
             break;
-        case "Valkyrie":
+        case "Huntress":
             var aranaktu = document.getElementById('1');
-            aranaktu.src = "../Images/Valkyrie_Placeholder.png";
+            aranaktu.src = "../Images/Huntress_Placeholder.png";
             break;
         case "Spooky":
             var aranaktu = document.getElementById('1');
@@ -27,6 +27,14 @@ function UserImage()
             var aranaktu = document.getElementById('2');
             aranaktu.src = "../Images/Knight_Placeholder.png";
             break;
+        case "Paladin":
+            var aranaktu = document.getElementById('2');
+            aranaktu.src = "../Images/Paladin_Placeholder.png";
+            break;
+        case "Huntress":
+            var aranaktu = document.getElementById('2');
+            aranaktu.src = "../Images/Huntress_Placeholder.png";
+            break;
         case "Valkyrie":
             var aranaktu = document.getElementById('2');
             aranaktu.src = "../Images/Valkyrie_Placeholder.png";
@@ -34,6 +42,10 @@ function UserImage()
         case "Spooky":
             var aranaktu = document.getElementById('2');
             aranaktu.src = "../Images/Spooky_Placeholder.png";
+            break;
+        case "Nightmare":
+            var aranaktu = document.getElementById('2');
+            aranaktu.src = "../Images/Spooky2_Placeholder.png";
             break;
     }
 }

@@ -11,8 +11,6 @@ namespace RpgApp_Data
     public class ClassSql
     {
         SqlConnection ConnectionDB;
-        int one = 1;
-        int zero = 0;
 
         public void ConnString()
         {
@@ -45,7 +43,9 @@ namespace RpgApp_Data
                         user.Defense = reader.GetInt32(5);
                         user.Speed = reader.GetInt32(6);
                         user.Class = reader.GetString(8);
-                        user.TotalExp = reader.GetInt32(9);
+                        user.CurrentExp = reader.GetInt32(9);
+                        user.NextExp = reader.GetInt32(10);
+                        user.TotalExp = reader.GetInt32(11);
 
                         double half = user.MaxHp * 0.5;
                         Math.Round(half, 0, MidpointRounding.AwayFromZero);
@@ -127,7 +127,9 @@ namespace RpgApp_Data
                         u.Defense = reader.GetInt32(4);
                         u.Speed = reader.GetInt32(5);
                         u.Class = reader.GetString(6);
-                        u.TotalExp = reader.GetInt32(7);
+                        u.CurrentExp = reader.GetInt32(7);
+                        u.NextExp = reader.GetInt32(8);
+                        u.TotalExp = reader.GetInt32(9);
                     }
                     ConnClose();
                     return u;
@@ -195,6 +197,9 @@ namespace RpgApp_Data
             cmd.Parameters.AddWithValue("@attack", user.Attack);
             cmd.Parameters.AddWithValue("@defense", user.Defense);
             cmd.Parameters.AddWithValue("@speed", user.Speed);
+            cmd.Parameters.AddWithValue("@class", user.Class);
+            cmd.Parameters.AddWithValue("@currentexp", user.CurrentExp);
+            cmd.Parameters.AddWithValue("@nextexp", user.NextExp);
             cmd.Parameters.AddWithValue("@totalexp", user.TotalExp);
             cmd.ExecuteNonQuery();
 

@@ -25,6 +25,7 @@ namespace RpgApp.Controllers
         public ActionResult Summary()
         {
             gvm.user = (User)Session["user"];
+            gvm.enemy = (Enemy)Session["enemy"];
 
             return View(gvm);
         }

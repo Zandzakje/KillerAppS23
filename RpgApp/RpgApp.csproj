@@ -104,7 +104,10 @@
     <Content Include="Images\Enemy2_Placeholder.png" />
     <Content Include="Images\Enemy3_Placeholder.png" />
     <Content Include="Images\Enemy_Placeholder.png" />
+    <Content Include="Images\Huntress_Placeholder.png" />
+    <Content Include="Images\Paladin_Placeholder.png" />
     <Content Include="Images\Knight_Placeholder.png" />
+    <Content Include="Images\Spooky2_Placeholder.png" />
     <Content Include="Images\Spooky_Placeholder.png" />
     <Content Include="Images\Valkyrie_Placeholder.png" />
     <Content Include="Scripts\bootstrap.js" />

@@ -40,12 +40,28 @@
         @if (Model.user.Speed >= Model.enemy.Speed)
         {
             <label>@Model.user.Message</label><br />
+
+            if (Model.enemy.CurrentHp <= 0)
+            {
+                <label>@Model.user.ExpMessage</label><br />
+
+                if (Model.user.Level == 50)
+                {
+                    <label>@Model.user.ClassMessage</label>
+                }
+            }
+
             <label>@Model.enemy.Message</label>
         }
         else
         {
             <label>@Model.enemy.Message</label><br />
-            <label>@Model.user.Message</label>
+            <label>@Model.user.Message</label><br />
+
+            if (Model.enemy.CurrentHp <= 0)
+            {
+                <label>@Model.user.ExpMessage</label>
+            }
         }
     </div>
 </body>

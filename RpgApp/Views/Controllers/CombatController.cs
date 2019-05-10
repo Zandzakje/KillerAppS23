@@ -45,6 +45,8 @@ namespace RpgApp.Controllers
             user.CurrentHp = 0;
             enemy.CurrentHp = 0;
             user.Message = "";
+            user.ExpMessage = "";
+            user.ClassMessage = "";
             enemy.Message = "";
 
             c.GetUpdateUser(user);

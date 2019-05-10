@@ -37,7 +37,10 @@
                     <th>Speed: @Model.user.Speed</th>
                 </tr>
                 <tr>
-                    <th>Exp: @Model.user.TotalExp</th>
+                    <th>Exp: @Model.user.CurrentExp / @Model.user.NextExp</th>
+                </tr>
+                <tr>
+                    <th>Total Exp: @Model.user.TotalExp</th>
                 </tr>
             </table>
 
