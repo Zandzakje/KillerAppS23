@@ -38,6 +38,17 @@ namespace RpgApp.Controllers
         }
 
         [HttpPost]
+        public ActionResult Heal()
+        {
+            gvm.user = (User)Session["user"];
+            gvm.enemy = (Enemy)Session["enemy"];
+
+            c.CheckSpeed2(gvm.user, gvm.enemy);
+
+            return View("Index", gvm);
+        }
+
+        [HttpPost]
         public ActionResult Escape()
         {
             User user = (User)Session["user"];

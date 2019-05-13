@@ -13,6 +13,7 @@ namespace RpgApp_Logic
         ClassSql cs = new ClassSql();
         int damageUser;
         int damageEnemy;
+        int healUser;
 
         public int RandomNumber()
         {
@@ -79,15 +80,63 @@ namespace RpgApp_Logic
                 string dummy = "dummy string zodat de goto werkt";
         }
 
+        public void CheckSpeed2(User user, Enemy enemy)
+        {
+            damageUser = 0;
+
+            if (user.CurrentHp == 0 || enemy.CurrentHp == 0)
+            {
+                goto Done;
+            }
+            else
+            {
+                if (user.Speed >= enemy.Speed)
+                {
+                    healUser = HealHitPoints(user);
+                    CheckHealth(user, enemy);
+                    
+                    CalculateDamageTaken(user, enemy);
+                    CheckHealth(user, enemy);
+                }
+                else if (user.Speed < enemy.Speed)
+                {
+                    CalculateDamageTaken(user, enemy);
+                    CheckHealth(user, enemy);
+
+                    if (user.CurrentHp <= 0)
+                    {
+                        goto Done;
+                    }
+                    else
+                    {
+                        healUser = HealHitPoints(user);
+                        CheckHealth(user, enemy);
+                    }
+                }
+            }
+
+            Done:
+                string dummy = "dummy string zodat de goto werkt";
+        }
+
         public int CalculateDamageDealt(User user, Enemy enemy)
         {
             Random random = new Random();
             int number = random.Next(85, 101);
+            int accuracy = random.Next(1, 21);
 
             damageUser = ((((2 * user.Level / 5 + 2) * user.Attack * 90 / enemy.Defense) / 50) + 2) * number / 100;
             Math.Round(enemy.CurrentHp, 0, MidpointRounding.AwayFromZero);
 
-            enemy.CurrentHp = enemy.CurrentHp - damageUser;
+            //mee bezig
+            //if(accuracy < 6)
+            //{
+            //    damageUser = 0;
+            //}
+            //else
+            //{
+                enemy.CurrentHp = enemy.CurrentHp - damageUser;
+            //}
 
             return damageUser;
         }
@@ -103,6 +152,15 @@ namespace RpgApp_Logic
             user.CurrentHp = user.CurrentHp - damageEnemy;
 
             return damageEnemy;
+        }
+
+        public int HealHitPoints(User user)
+        {
+            healUser = user.HalfHp;
+
+            user.CurrentHp = user.CurrentHp + healUser;
+
+            return healUser;
         }
 
         public void CheckHealth(User user, Enemy enemy)
@@ -166,6 +224,17 @@ namespace RpgApp_Logic
             {
                 user.CurrentHp = 0;
                 enemy.Message = enemy.Name + " dealt " + damageEnemy + " damage, You are defeated!";
+            }
+            else if (user.CurrentHp > 0 && user.CurrentHp < user.MaxHp && damageUser == 0 && user.Speed < enemy.Speed)
+            {
+                user.Message = user.Name + " heals " + healUser + " HP!";
+                enemy.Message = enemy.Name + " dealt " + damageEnemy + " damage!";
+            }
+            else if (user.CurrentHp > 0 && user.CurrentHp >= user.MaxHp && damageUser == 0 && user.Speed < enemy.Speed)
+            {
+                user.CurrentHp = user.MaxHp;
+                user.Message = user.Name + "'s HP fully restored!";
+                enemy.Message = enemy.Name + " dealt " + damageEnemy + " damage!";
             }
             else
             {
@@ -279,15 +348,15 @@ namespace RpgApp_Logic
                 {
                     case "Bandit":
                         enemy.Level++;
-                        enemy.MaxHp = enemy.MaxHp + 2;
+                        enemy.MaxHp = enemy.MaxHp + 4;
                         enemy.Attack = enemy.Attack + 2;
                         enemy.Defense = enemy.Defense + 2;
                         enemy.Speed = enemy.Speed + 2;
                         break;
                     case "Chomper":
                         enemy.Level++;
-                        enemy.MaxHp = enemy.MaxHp + 4;
-                        enemy.Attack = enemy.Attack + 3;
+                        enemy.MaxHp = enemy.MaxHp + 3;
+                        enemy.Attack = enemy.Attack + 4;
                         enemy.Defense = enemy.Defense + 2;
                         enemy.Speed = enemy.Speed + 1;
                         break;

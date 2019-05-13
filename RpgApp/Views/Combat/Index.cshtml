@@ -29,6 +29,9 @@
         <form method="post" action="@Url.Action("Attack", "Combat")">
             <input id="Button1" type="submit" value="Attack" />
         </form>
+        <form method="post" action="@Url.Action("Heal", "Combat")">
+            <input id="Button1" type="submit" value="Heal" />
+        </form>
         <form method="post" action="@Url.Action("Escape", "Combat")">
             <input id="Button1" type="submit" value="Escape" />
         </form>
@@ -50,8 +53,10 @@
                     <label>@Model.user.ClassMessage</label>
                 }
             }
-
-            <label>@Model.enemy.Message</label>
+            else
+            {
+                <label>@Model.enemy.Message</label>
+            }
         }
         else
         {
