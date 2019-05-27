@@ -1,4 +1,5 @@
-﻿
+﻿@model RpgApp.Models.ViewModels.CombatViewModel
+
 @{
     ViewBag.Title = "Combat";
 }
@@ -6,23 +7,25 @@
 <link href="../Content/Style.css" rel="stylesheet">
 <script src="../Content/JavaScript.js"></script>
 
-<div id="ImgUser" data-name="@Model.user.Class"></div>
-<div id="ImgEnemy" data-name="@Model.enemy.Name"></div>
+<div id="ImgUser" data-name="@Model.userViewModel.Class"></div>
+<div id="ImgEnemy" data-name="@Model.enemyViewModel.Name"></div>
 
 <body onload="BattleImages()">
     <h2>Combat</h2>
 
     <div id="player">
-        <label>@Model.user.Name</label><br />
-        <label>lv. @Model.user.Level</label><br />
-        <meter id="HpUser" name="player" value="@Model.user.CurrentHp" min="0" max="@Model.user.MaxHp" low="@Model.user.MinHp" high="@Model.user.HalfHp" optimum="@Model.user.MaxHp"></meter><br />
-        <label>HP: @Model.user.CurrentHp/@Model.user.MaxHp</label>
+        <label>@Model.userViewModel.Name</label>
+        <label class="level">lv. @Model.userViewModel.Level</label><br />
+        <meter id="HpUser" name="player" value="@Model.userViewModel.CurrentHp" min="0" max="@Model.userViewModel.MaxHp" low="@Model.userViewModel.LowHp" high="@Model.userViewModel.HalfHp" optimum="@Model.userViewModel.MaxHp"></meter><br />
+        <label>HP: @Model.userViewModel.CurrentHp/@Model.userViewModel.MaxHp</label>
+        @*<meter class="expBar" value="55" min="0" max="100" low="15" high="50" optimum="100"></meter>*@
     </div>
     <div id="enemy">
-        <label>@Model.enemy.Name</label><br />
-        <label>lv. @Model.enemy.Level</label><br />
-        <meter id="HpEnemy" name="enemy" value="@Model.enemy.CurrentHp" min="0" max="@Model.enemy.MaxHp" low="@Model.enemy.MinHp" high="@Model.enemy.HalfHp" optimum="@Model.enemy.MaxHp"></meter><br />
-        <label>HP: @Model.enemy.CurrentHp/@Model.enemy.MaxHp</label>
+        <label>@Model.enemyViewModel.Name</label>
+        <label class="level">lv. @Model.enemyViewModel.Level</label><br />
+        <meter id="HpEnemy" name="enemy" value="@Model.enemyViewModel.CurrentHp" min="0" max="@Model.enemyViewModel.MaxHp" low="@Model.enemyViewModel.LowHp" high="@Model.enemyViewModel.HalfHp" optimum="@Model.enemyViewModel.MaxHp"></meter><br />
+        <label>HP: @Model.enemyViewModel.CurrentHp/@Model.enemyViewModel.MaxHp</label><br />
+        @*<meter class="expBar2" value="3" min="0" max="3" low="1" high="2" optimum="3"></meter>*@
     </div>
     <div id="imageBlockLeft">
         <img src="" id="2" />
@@ -40,33 +43,37 @@
         <img src="" id="3" />
     </div>
     <div>
-        @if (Model.user.Speed >= Model.enemy.Speed)
+        @*@if (Model.userViewModel.user.Speed >= Model.enemyViewModel.enemy.Speed)
         {
-            <label>@Model.user.Message</label><br />
+            <label>@Model.userViewModel.user.Message</label><br />
 
-            if (Model.enemy.CurrentHp <= 0)
+            if (Model.enemyViewModel.enemy.CurrentHp <= 0)
             {
-                <label>@Model.user.ExpMessage</label><br />
+                <label>@Model.userViewModel.user.ExpMessage</label><br />
 
-                if (Model.user.Level == 50)
+                if (Model.userViewModel.user.Level == 50)
                 {
-                    <label>@Model.user.ClassMessage</label>
+                    <label>@Model.userViewModel.user.ClassMessage</label>
                 }
             }
             else
             {
-                <label>@Model.enemy.Message</label>
+                <label>@Model.enemyViewModel.enemy.Message</label>
             }
         }
         else
         {
-            <label>@Model.enemy.Message</label><br />
-            <label>@Model.user.Message</label><br />
+            <label>@Model.enemyViewModel.enemy.Message</label><br />
 
-            if (Model.enemy.CurrentHp <= 0)
+            if (Model.userViewModel.user.CurrentHp > 0)
             {
-                <label>@Model.user.ExpMessage</label>
+                <label>@Model.userViewModel.user.Message</label><br />
+
+                if (Model.enemyViewModel.enemy.CurrentHp <= 0)
+                {
+                    <label>@Model.userViewModel.user.ExpMessage</label>
+                }
             }
-        }
+        }*@
     </div>
 </body>

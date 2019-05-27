@@ -10,20 +10,10 @@ namespace RpgApp_Logic
 {
     public class Combat
     {
-        ClassSql cs = new ClassSql();
-        int damageUser;
-        int damageEnemy;
-        int healUser;
+        UserSql userSql = new UserSql();
+        EnemySql enemySql = new EnemySql();
 
-        public int RandomNumber()
-        {
-            Random random = new Random();
-            int number = random.Next(4, 8); // 4 t/m 7
-
-            return number;
-        }
-
-        public void Start(User user, Enemy enemy)
+        public void InitializeCombat(User user, Enemy enemy)
         {
             if (user.CurrentHp == 0 && enemy.CurrentHp == 0)
             {
@@ -36,211 +26,221 @@ namespace RpgApp_Logic
             }
         }
         
-        public void CheckSpeed(User user, Enemy enemy)
+        public void Action(User user, Enemy enemy)
         {
             if(user.CurrentHp == 0 || enemy.CurrentHp == 0)
             {
-                goto Done;
+                
             }
             else
             {
-                if (user.Speed >= enemy.Speed)
+                if(user.Speed >= enemy.Speed)
                 {
-                    damageUser = CalculateDamageDealt(user, enemy);
-                    CheckHealth(user, enemy);
+                    switch (user.Move)
+                    {
+                        case "Attack":
+                            user.Damage = CalculateDamageDealt(user, enemy);
+                            break;
+                        case "Heal":
+                            UserLogic userLogic = new UserLogic();
+                            user.Heal = userLogic.Healing(user);
+                            break;
+                    }
+
+                    UserMessage(user, enemy);
 
                     if (enemy.CurrentHp <= 0)
                     {
-                        goto Done;
+                        
                     }
                     else
                     {
-                        CalculateDamageTaken(user, enemy);
-                        CheckHealth(user, enemy);
+                        enemy.Damage = CalculateDamageTaken(user, enemy);
+                        EnemyMessage(user, enemy);
                     }
                 }
-                else if (user.Speed < enemy.Speed)
+                else
                 {
-                    CalculateDamageTaken(user, enemy);
-                    CheckHealth(user, enemy);
+                    enemy.Damage = CalculateDamageTaken(user, enemy);
+                    EnemyMessage(user, enemy);
 
                     if (user.CurrentHp <= 0)
                     {
-                        goto Done;
+                        
                     }
                     else
                     {
-                        damageUser = CalculateDamageDealt(user, enemy);
-                        CheckHealth(user, enemy);
+                        switch (user.Move)
+                        {
+                            case "Attack":
+                                user.Damage = CalculateDamageDealt(user, enemy);
+                                break;
+                            case "Heal":
+                                UserLogic userLogic = new UserLogic();
+                                user.Heal = userLogic.Healing(user);
+                                break;
+                        }
+
+                        UserMessage(user, enemy);
                     }
                 }
             }
-
-            Done:
-                string dummy = "dummy string zodat de goto werkt";
-        }
-
-        public void CheckSpeed2(User user, Enemy enemy)
-        {
-            damageUser = 0;
-
-            if (user.CurrentHp == 0 || enemy.CurrentHp == 0)
-            {
-                goto Done;
-            }
-            else
-            {
-                if (user.Speed >= enemy.Speed)
-                {
-                    healUser = HealHitPoints(user);
-                    CheckHealth(user, enemy);
-                    
-                    CalculateDamageTaken(user, enemy);
-                    CheckHealth(user, enemy);
-                }
-                else if (user.Speed < enemy.Speed)
-                {
-                    CalculateDamageTaken(user, enemy);
-                    CheckHealth(user, enemy);
-
-                    if (user.CurrentHp <= 0)
-                    {
-                        goto Done;
-                    }
-                    else
-                    {
-                        healUser = HealHitPoints(user);
-                        CheckHealth(user, enemy);
-                    }
-                }
-            }
-
-            Done:
-                string dummy = "dummy string zodat de goto werkt";
         }
 
         public int CalculateDamageDealt(User user, Enemy enemy)
         {
             Random random = new Random();
             int number = random.Next(85, 101);
+            int attackPower = random.Next(75, 91);
             int accuracy = random.Next(1, 21);
 
-            damageUser = ((((2 * user.Level / 5 + 2) * user.Attack * 90 / enemy.Defense) / 50) + 2) * number / 100;
+            int damage = ((((2 * user.Level / 5 + 2) * user.Attack * attackPower / enemy.Defense) / 50) + 2) * number / 100;
             Math.Round(enemy.CurrentHp, 0, MidpointRounding.AwayFromZero);
 
-            //mee bezig
-            //if(accuracy < 6)
-            //{
-            //    damageUser = 0;
-            //}
-            //else
-            //{
-                enemy.CurrentHp = enemy.CurrentHp - damageUser;
-            //}
+            if (accuracy < 3)
+            {
+                damage = 0;
+            }
+            else
+            {
+                enemy.CurrentHp = enemy.CurrentHp - damage;
+            }
 
-            return damageUser;
+            return damage;
         }
 
         public int CalculateDamageTaken(User user, Enemy enemy)
         {
             Random random = new Random();
             int number = random.Next(85, 101);
+            int attackPower = random.Next(75, 91);
+            int accuracy = random.Next(1, 21);
 
-            damageEnemy = ((((2 * enemy.Level / 5 + 2) * enemy.Attack * 90 / user.Defense) / 50) + 2) * number / 100;
+            int damage = ((((2 * enemy.Level / 5 + 2) * enemy.Attack * attackPower / user.Defense) / 50) + 2) * number / 100;
             Math.Round(user.CurrentHp, 0, MidpointRounding.AwayFromZero);
 
-            user.CurrentHp = user.CurrentHp - damageEnemy;
-
-            return damageEnemy;
-        }
-
-        public int HealHitPoints(User user)
-        {
-            healUser = user.HalfHp;
-
-            user.CurrentHp = user.CurrentHp + healUser;
-
-            return healUser;
-        }
-
-        public void CheckHealth(User user, Enemy enemy)
-        {
-            if(enemy.CurrentHp <= 0)
+            if (accuracy < 3)
             {
-                Experience(user, enemy);
+                damage = 0;
             }
             else
             {
-                EnemyMessage(user, enemy);
+                user.CurrentHp = user.CurrentHp - damage;
             }
-        }
 
-        public int ExpEarned(User user, Enemy enemy)
-        {
-            user.Exp = (user.Level * user.Level) + (enemy.MaxHp / 10);
-
-            return user.Exp;
+            return damage;
         }
 
         public void UserMessage(User user, Enemy enemy)
         {
-            if (user.Speed >= enemy.Speed && user.CurrentExp < user.NextExp)
+            switch (user.Move)
             {
-                enemy.CurrentHp = 0;
-                enemy.Message = "";
-                user.Message = user.Name + " dealt " + damageUser + " damage, You win!";
-                user.ExpMessage = "You earned " + user.Exp + " Exp!";
+                case "Attack":
+                    user.Message = user.Name + " dealt " + user.Damage + " damage!";
+                    if (enemy.CurrentHp <= 0)
+                    {
+                        enemy.CurrentHp = 0;
+                        user.Message = user.Message + " You win!";
+                        ExperienceGained(user, enemy);
+                    }
+                    else if (user.Damage == 0)
+                    {
+                        user.Message = enemy.Name + " avoided the attack!";
+                    }
+                    else
+                    {
+                        //nothing
+                    }
+                    break;
+                case "Heal":
+                    if (user.CurrentHp < user.MaxHp)
+                    {
+                        user.Message = user.Name + " heals " + user.Heal + " HP!";
+                    } 
+                    else if (user.CurrentHp >= user.MaxHp)
+                    {
+                        user.CurrentHp = user.MaxHp;
+                        user.Message = user.Name + "'s HP fully restored!";
+                    }
+                    break;
             }
-            else if (user.Speed < enemy.Speed && user.CurrentExp < user.NextExp)
-            {
-                enemy.CurrentHp = 0;
-                user.Message = user.Name + " dealt " + damageUser + " damage, You win!";
-                user.ExpMessage = "You earned " + user.Exp + " Exp!";
-            }
-            else if (user.Speed >= enemy.Speed && user.CurrentExp >= user.NextExp)
-            {
-                enemy.CurrentHp = 0;
-                enemy.Message = "";
-                user.Message = user.Name + " dealt " + damageUser + " damage, You win!";
-                user.ExpMessage = "You earned " + user.Exp + " Exp!" + " Level up!";
-            }
-            else if (user.Speed < enemy.Speed && user.CurrentExp >= user.NextExp)
-            {
-                enemy.CurrentHp = 0;
-                user.Message = user.Name + " dealt " + damageUser + " damage, You win!";
-                user.ExpMessage = "You earned " + user.Exp + " Exp!" + " Level up!";
-            }
+
+            //if (user.Speed >= enemy.Speed && user.CurrentExp < user.NextExp)
+            //{
+            //    enemy.CurrentHp = 0;
+            //    enemy.Message = "";
+            //    user.Message = user.Name + " dealt " + damageUser + " damage, You win!";
+            //    user.ExpMessage = "You earned " + user.Exp + " Exp!";
+            //}
+            //else if (user.Speed < enemy.Speed && user.CurrentExp < user.NextExp)
+            //{
+            //    enemy.CurrentHp = 0;
+            //    user.Message = user.Name + " dealt " + damageUser + " damage, You win!";
+            //    user.ExpMessage = "You earned " + user.Exp + " Exp!";
+            //}
+            //else if (user.Speed >= enemy.Speed && user.CurrentExp >= user.NextExp)
+            //{
+            //    enemy.CurrentHp = 0;
+            //    enemy.Message = "";
+            //    user.Message = user.Name + " dealt " + damageUser + " damage, You win!";
+            //    user.ExpMessage = "You earned " + user.Exp + " Exp!" + " Level up!";
+            //}
+            //else if (user.Speed < enemy.Speed && user.CurrentExp >= user.NextExp)
+            //{
+            //    enemy.CurrentHp = 0;
+            //    user.Message = user.Name + " dealt " + damageUser + " damage, You win!";
+            //    user.ExpMessage = "You earned " + user.Exp + " Exp!" + " Level up!";
+            //}
         }
 
         public void EnemyMessage(User user, Enemy enemy)
         {
-            if (user.CurrentHp <= 0 && user.Speed < enemy.Speed)
+            enemy.Message = enemy.Name + " dealt " + enemy.Damage + " damage!";
+
+            if (user.CurrentHp <= 0)
             {
                 user.CurrentHp = 0;
-                user.Message = "";
-                enemy.Message = enemy.Name + " dealt " + damageEnemy + " damage, You are defeated!";
-            }
-            else if (user.CurrentHp <= 0 && user.Speed >= enemy.Speed)
-            {
-                user.CurrentHp = 0;
-                enemy.Message = enemy.Name + " dealt " + damageEnemy + " damage, You are defeated!";
-            }
-            else if (user.CurrentHp > 0 && user.CurrentHp < user.MaxHp && damageUser == 0 && user.Speed < enemy.Speed)
-            {
-                user.Message = user.Name + " heals " + healUser + " HP!";
-                enemy.Message = enemy.Name + " dealt " + damageEnemy + " damage!";
-            }
-            else if (user.CurrentHp > 0 && user.CurrentHp >= user.MaxHp && damageUser == 0 && user.Speed < enemy.Speed)
-            {
-                user.CurrentHp = user.MaxHp;
-                user.Message = user.Name + "'s HP fully restored!";
-                enemy.Message = enemy.Name + " dealt " + damageEnemy + " damage!";
+                enemy.Message = enemy.Message + " You are defeated!";
             }
             else
             {
-                user.Message = user.Name + " dealt " + damageUser + " damage!";
-                enemy.Message = enemy.Name + " dealt " + damageEnemy + " damage!";
+                //nothing
             }
+
+            //if (user.CurrentHp <= 0 && user.Speed < enemy.Speed)
+            //{
+            //    user.CurrentHp = 0;
+            //    user.Message = "";
+            //    enemy.Message = enemy.Name + " dealt " + damageEnemy + " damage, You are defeated!";
+            //}
+            //else if (user.CurrentHp <= 0 && user.Speed >= enemy.Speed)
+            //{
+            //    user.CurrentHp = 0;
+            //    enemy.Message = enemy.Name + " dealt " + damageEnemy + " damage, You are defeated!";
+            //}
+            //else if (user.CurrentHp > 0 && user.CurrentHp < user.MaxHp && damageUser == 0 && user.Speed < enemy.Speed)
+            //{
+            //    user.Message = user.Name + " heals " + healUser + " HP!";
+            //    enemy.Message = enemy.Name + " dealt " + damageEnemy + " damage!";
+            //}
+            //else if (user.CurrentHp > 0 && user.CurrentHp >= user.MaxHp && damageUser == 0 && user.Speed < enemy.Speed)
+            //{
+            //    user.CurrentHp = user.MaxHp;
+            //    user.Message = user.Name + "'s HP fully restored!";
+            //    enemy.Message = enemy.Name + " dealt " + damageEnemy + " damage!";
+            //}
+            //else
+            //{
+            //    user.Message = user.Name + " dealt " + damageUser + " damage!";
+            //    enemy.Message = enemy.Name + " dealt " + damageEnemy + " damage!";
+            //}
+        }
+
+        public int ExpEarned(User user, Enemy enemy)
+        {
+            user.Exp = (user.Level * enemy.Level) + (enemy.MaxHp / 10);
+
+            return user.Exp;
         }
 
         public int NxtLv(User user)
@@ -249,18 +249,20 @@ namespace RpgApp_Logic
             return user.NextExp;
         }
 
-        public void Experience(User user, Enemy enemy)
+        public void ExperienceGained(User user, Enemy enemy)
         {
             user.Exp = ExpEarned(user, enemy);
             user.CurrentExp = user.CurrentExp + user.Exp;
             user.TotalExp = user.TotalExp + user.Exp;
-            
-            UserMessage(user, enemy);
+            user.ExpMessage = "You earned " + user.Exp + " exp!";
 
-            if(user.CurrentExp >= user.NextExp)
+            if (user.CurrentExp >= user.NextExp)
             {
+                UserLogic userLogic = new UserLogic();
+
                 user.Level++;
-                LevelUp(user);
+                user = userLogic.LevelUp(user);
+                user.ExpMessage = user.ExpMessage + " Level up!";
 
                 if (user.Level == 50)
                 {
@@ -275,44 +277,14 @@ namespace RpgApp_Logic
                 if(user.CurrentExp > user.NextExp)
                 {
                     RemainingExp = user.CurrentExp - user.NextExp;
+                    user.CurrentExp = RemainingExp;
                 }
 
-                user.CurrentExp = RemainingExp;
                 user.NextExp = NxtLv(user);
             }
             else
             {
                 //nothing happens
-            }
-        }
-
-        public void LevelUp(User user)
-        {
-            Random statsUp = new Random();
-            int weak = statsUp.Next(1, 4);      // 0 t/m 3
-            int normal = statsUp.Next(2, 5);    // 1 t/m 4
-            int strong = statsUp.Next(3, 6);    // 2 t/m 5
-
-            switch (user.Class)
-            {
-                case "Knight":
-                    user.MaxHp = user.MaxHp + normal;
-                    user.Attack = user.Attack + strong;
-                    user.Defense = user.Defense + normal;
-                    user.Speed = user.Speed + weak;
-                    break;
-                case "Valkyrie":
-                    user.MaxHp = user.MaxHp + normal;
-                    user.Attack = user.Attack + normal;
-                    user.Defense = user.Defense + weak;
-                    user.Speed = user.Speed + strong;
-                    break;
-                case "Spooky":
-                    user.MaxHp = user.MaxHp + normal;
-                    user.Attack = user.Attack + normal;
-                    user.Defense = user.Defense + normal;
-                    user.Speed = user.Speed + normal;
-                    break;
             }
         }
 
@@ -337,52 +309,12 @@ namespace RpgApp_Logic
 
         public Enemy GetNewEnemy(int number)
         {
-            return cs.NewEnemy(number);
-        }
-
-        public Enemy EnemyBalance(User user, Enemy enemy)
-        {
-            while(user.Level != enemy.Level)
-            {
-                switch (enemy.Name)
-                {
-                    case "Bandit":
-                        enemy.Level++;
-                        enemy.MaxHp = enemy.MaxHp + 4;
-                        enemy.Attack = enemy.Attack + 2;
-                        enemy.Defense = enemy.Defense + 2;
-                        enemy.Speed = enemy.Speed + 2;
-                        break;
-                    case "Chomper":
-                        enemy.Level++;
-                        enemy.MaxHp = enemy.MaxHp + 3;
-                        enemy.Attack = enemy.Attack + 4;
-                        enemy.Defense = enemy.Defense + 2;
-                        enemy.Speed = enemy.Speed + 1;
-                        break;
-                    case "Spikey":
-                        enemy.Level++;
-                        enemy.MaxHp = enemy.MaxHp + 3;
-                        enemy.Attack = enemy.Attack + 1;
-                        enemy.Defense = enemy.Defense + 4;
-                        enemy.Speed = enemy.Speed + 2;
-                        break;
-                    case "Stinger":
-                        enemy.Level++;
-                        enemy.MaxHp = enemy.MaxHp + 3;
-                        enemy.Attack = enemy.Attack + 3;
-                        enemy.Defense = enemy.Defense + 3;
-                        enemy.Speed = enemy.Speed + 3;
-                        break;
-                }
-            }
-
-            return enemy;
+            return enemySql.GenerateEnemy(number);
         }
 
         public void GetUpdateUser(User user)
         {
-            cs.UpdateUser(user);
+            userSql.UpdateUser(user);
         }
     }
 }

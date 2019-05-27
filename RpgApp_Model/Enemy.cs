@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RpgApp_View
+namespace RpgApp_Model
 {
-    public class Class1
+    public class Enemy : Character
     {
+        public string Type { get; set; }
     }
 }

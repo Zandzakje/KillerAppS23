@@ -1,4 +1,4 @@
-﻿@model RpgApp.Models.ViewModels.GlobalViewModel
+﻿@model RpgApp.Models.ViewModels.SummaryViewModel
 
 @{
     ViewBag.Title = "Summary";
@@ -9,38 +9,38 @@
 
 <h2>Summary</h2>
 
-<div id="ImgUser" data-name="@Model.user.Class"></div>
+<div id="ImgUser" data-name="@Model.Class"></div>
 
 <body onload="UserImage()">
     <form method="post" action="@Url.Action("Index", "Surface")">
         <div id="summaryPage">
             <table id="tableStats">
                 <tr>
-                    <th>Name: @Model.user.Name</th>
+                    <th>Name: @Model.Username</th>
                 </tr>
                 <tr>
-                    <th>Class: @Model.user.Class</th>
+                    <th>Class: @Model.Class</th>
                 </tr>
                 <tr>
-                    <th>Level: @Model.user.Level</th>
+                    <th>Level: @Model.Level</th>
                 </tr>
                 <tr>
-                    <th>HP: @Model.user.MaxHp/@Model.user.MaxHp</th>
+                    <th>HP: @Model.MaxHp/@Model.MaxHp</th>
                 </tr>
                 <tr>
-                    <th>Attack: @Model.user.Attack</th>
+                    <th>Attack: @Model.Attack</th>
                 </tr>
                 <tr>
-                    <th>Defense: @Model.user.Defense</th>
+                    <th>Defense: @Model.Defense</th>
                 </tr>
                 <tr>
-                    <th>Speed: @Model.user.Speed</th>
+                    <th>Speed: @Model.Speed</th>
                 </tr>
                 <tr>
-                    <th>Exp: @Model.user.CurrentExp / @Model.user.NextExp</th>
+                    <th>Exp: @Model.CurrentExp / @Model.NextExp</th>
                 </tr>
                 <tr>
-                    <th>Total Exp: @Model.user.TotalExp</th>
+                    <th>Total Exp: @Model.TotalExp</th>
                 </tr>
             </table>
 

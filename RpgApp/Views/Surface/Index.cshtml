@@ -1,9 +1,9 @@
-﻿@model RpgApp.Models.ViewModels.GlobalViewModel
+﻿@model RpgApp.Models.ViewModels.SurfaceViewModel
 
 @{
     ViewBag.Title = "Index";
 }
-<h2>Welcome, @Model.user.Name</h2>
+<h2>Welcome, @Model.Username</h2>
 
 <form method="post" action="@Url.Action("Summary", "Surface")">
     <div>

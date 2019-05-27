@@ -10,16 +10,16 @@ namespace RpgApp_Logic
 {
     public class Login
     {
-        ClassSql cs = new ClassSql();
+        UserSql userSql = new UserSql();
 
-        public User GetLoginCheck(User user)
+        public User GetLoginUser(string name, string password)
         {
-            return cs.LoginCheck(user);
+            return userSql.LoginUser(name, password);
         }
 
-        public void GetRegistry(User user)
+        public void GetRegistryUser(User user)
         {
-            cs.Registry(user);
+            userSql.RegistryUser(user);
         }
 
         public string ErrorLogin()

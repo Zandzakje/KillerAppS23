@@ -11,8 +11,6 @@ namespace RpgApp.Controllers
 {
     public class LoginController : Controller
     {
-        Login l = new Login();
-
         // GET: Login
         public ActionResult Index()
         {
@@ -25,31 +23,31 @@ namespace RpgApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult LoginCheck(User user)
+        public ActionResult LoginCheck(string name, string password)
         {
-            GlobalViewModel gvm = new GlobalViewModel();
+            LoginViewModel loginViewModel = new LoginViewModel();
+            Login login = new Login();
+            User user = login.GetLoginUser(name, password);
 
-            User loginCheck = l.GetLoginCheck(user);
-
-            if (loginCheck != null)
+            if (user != null)
             {
-                Session["user"] = loginCheck;
+                Session["user"] = user;
 
                 return RedirectToAction("Index", "Surface");
             }
             else
             {
-                gvm.ErrorMessage = l.ErrorLogin();
-                user = new User();
+                loginViewModel.ErrorMessage = login.ErrorLogin();
 
-                return View("Index", gvm);
+                return View("Index", loginViewModel);
             }
         }
 
         [HttpPost]
         public ActionResult RegisterCheck(User user)
         {
-            l.GetRegistry(user);
+            Login login = new Login();
+            login.GetRegistryUser(user);
 
             return RedirectToAction("Index", "Login");
         }

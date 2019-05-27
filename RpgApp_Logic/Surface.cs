@@ -10,11 +10,11 @@ namespace RpgApp_Logic
 {
     public class Surface
     {
-        ClassSql cs = new ClassSql();
+        UserSql userSql = new UserSql();
 
-        public User GetSummary(string name)
+        public User GetSummaryUser(string name)
         {
-            return cs.Summary(name);
+            return userSql.SummaryUser(name);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model RpgApp.Models.ViewModels.GlobalViewModel
+﻿@model RpgApp.Models.ViewModels.LoginViewModel
 
 @{
     ViewBag.Title = "Index";
@@ -9,9 +9,9 @@
 <form method="post" action="@Url.Action("LoginCheck", "Login")">
     <div>
         <label>Username:</label>
-            <input id="Text1" name="Name" type="text" required/><br />
+            <input id="Text1" name="name" type="text" required/><br />
         <label>Password:</label>
-            <input id="Password1" name="Password" type="password" required/><br />
+            <input id="Password1" name="password" type="password" required/><br />
             <input id="Submit1" type="submit" value="Login" />
         <br/>
         <br/>

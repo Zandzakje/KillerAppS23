@@ -112,6 +112,7 @@
     <Content Include="Images\Valkyrie_Placeholder.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Database.config" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -120,15 +121,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Models\ViewModels\EnemyViewModel.cs" />
-    <Compile Include="Models\ViewModels\UserViewModel.cs" />
-    <Compile Include="Views\Controllers\CombatController.cs" />
-    <Compile Include="Views\Controllers\LoginController.cs" />
-    <Compile Include="Views\Controllers\SurfaceController.cs" />
+    <Compile Include="Controllers\CombatController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\SurfaceController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\ViewModels\GlobalViewModel.cs" />
+    <Compile Include="Models\ViewModels\CombatViewModel.cs" />
+    <Compile Include="Models\ViewModels\EnemyViewModel.cs" />
+    <Compile Include="Models\ViewModels\LoginViewModel.cs" />
+    <Compile Include="Models\ViewModels\RegisterViewModel.cs" />
+    <Compile Include="Models\ViewModels\SummaryViewModel.cs" />
+    <Compile Include="Models\ViewModels\SurfaceViewModel.cs" />
+    <Compile Include="Models\ViewModels\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
