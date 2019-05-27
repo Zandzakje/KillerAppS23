@@ -23,6 +23,7 @@ namespace RpgApp_Model
         public string Message { get; set; }
         public int Damage { get; set; }
 
+        public bool Faster { get; set; }
         public bool Defeated { get; set; }
     }
 }

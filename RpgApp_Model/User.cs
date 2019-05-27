@@ -18,5 +18,7 @@ namespace RpgApp_Model
         public string ExpMessage { get; set; }      //Exp shown you earned after battle and if you levelled up
         public string ClassMessage { get; set; }    //Message which appears when the user evolves into another class
         public int Heal { get; set; }
+
+        public bool ClassUp { get; set; }
     }
 }

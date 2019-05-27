@@ -15,8 +15,10 @@ namespace RpgApp.Models.ViewModels
         public int LowHp { get; set; }
         public double CurrentHp { get; set; }
         public string Message { get; set; }
-
+        public string ExpMessage { get; set; }
+        public string ClassMessage { get; set; }
         public bool Faster { get; set; }
         public bool ClassUp { get; set; }
+        public bool Defeated { get; set; }
     }
 }

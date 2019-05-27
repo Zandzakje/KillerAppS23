@@ -28,14 +28,12 @@ namespace RpgApp_Logic
         
         public void Action(User user, Enemy enemy)
         {
-            if(user.CurrentHp == 0 || enemy.CurrentHp == 0)
+            if(user.CurrentHp > 0 && enemy.CurrentHp > 0)
             {
-                
-            }
-            else
-            {
-                if(user.Speed >= enemy.Speed)
+                if (user.Speed >= enemy.Speed)
                 {
+                    user.Faster = true;
+
                     switch (user.Move)
                     {
                         case "Attack":
@@ -51,7 +49,7 @@ namespace RpgApp_Logic
 
                     if (enemy.CurrentHp <= 0)
                     {
-                        
+                        enemy.Defeated = true;
                     }
                     else
                     {
@@ -66,7 +64,7 @@ namespace RpgApp_Logic
 
                     if (user.CurrentHp <= 0)
                     {
-                        
+                        user.Defeated = true;
                     }
                     else
                     {
@@ -84,6 +82,10 @@ namespace RpgApp_Logic
                         UserMessage(user, enemy);
                     }
                 }
+            }
+            else
+            {
+                
             }
         }
 
@@ -164,33 +166,6 @@ namespace RpgApp_Logic
                     }
                     break;
             }
-
-            //if (user.Speed >= enemy.Speed && user.CurrentExp < user.NextExp)
-            //{
-            //    enemy.CurrentHp = 0;
-            //    enemy.Message = "";
-            //    user.Message = user.Name + " dealt " + damageUser + " damage, You win!";
-            //    user.ExpMessage = "You earned " + user.Exp + " Exp!";
-            //}
-            //else if (user.Speed < enemy.Speed && user.CurrentExp < user.NextExp)
-            //{
-            //    enemy.CurrentHp = 0;
-            //    user.Message = user.Name + " dealt " + damageUser + " damage, You win!";
-            //    user.ExpMessage = "You earned " + user.Exp + " Exp!";
-            //}
-            //else if (user.Speed >= enemy.Speed && user.CurrentExp >= user.NextExp)
-            //{
-            //    enemy.CurrentHp = 0;
-            //    enemy.Message = "";
-            //    user.Message = user.Name + " dealt " + damageUser + " damage, You win!";
-            //    user.ExpMessage = "You earned " + user.Exp + " Exp!" + " Level up!";
-            //}
-            //else if (user.Speed < enemy.Speed && user.CurrentExp >= user.NextExp)
-            //{
-            //    enemy.CurrentHp = 0;
-            //    user.Message = user.Name + " dealt " + damageUser + " damage, You win!";
-            //    user.ExpMessage = "You earned " + user.Exp + " Exp!" + " Level up!";
-            //}
         }
 
         public void EnemyMessage(User user, Enemy enemy)
@@ -202,38 +177,14 @@ namespace RpgApp_Logic
                 user.CurrentHp = 0;
                 enemy.Message = enemy.Message + " You are defeated!";
             }
+            else if (enemy.Damage == 0)
+            {
+                enemy.Message = user.Name + " avoided the attack!";
+            }
             else
             {
                 //nothing
             }
-
-            //if (user.CurrentHp <= 0 && user.Speed < enemy.Speed)
-            //{
-            //    user.CurrentHp = 0;
-            //    user.Message = "";
-            //    enemy.Message = enemy.Name + " dealt " + damageEnemy + " damage, You are defeated!";
-            //}
-            //else if (user.CurrentHp <= 0 && user.Speed >= enemy.Speed)
-            //{
-            //    user.CurrentHp = 0;
-            //    enemy.Message = enemy.Name + " dealt " + damageEnemy + " damage, You are defeated!";
-            //}
-            //else if (user.CurrentHp > 0 && user.CurrentHp < user.MaxHp && damageUser == 0 && user.Speed < enemy.Speed)
-            //{
-            //    user.Message = user.Name + " heals " + healUser + " HP!";
-            //    enemy.Message = enemy.Name + " dealt " + damageEnemy + " damage!";
-            //}
-            //else if (user.CurrentHp > 0 && user.CurrentHp >= user.MaxHp && damageUser == 0 && user.Speed < enemy.Speed)
-            //{
-            //    user.CurrentHp = user.MaxHp;
-            //    user.Message = user.Name + "'s HP fully restored!";
-            //    enemy.Message = enemy.Name + " dealt " + damageEnemy + " damage!";
-            //}
-            //else
-            //{
-            //    user.Message = user.Name + " dealt " + damageUser + " damage!";
-            //    enemy.Message = enemy.Name + " dealt " + damageEnemy + " damage!";
-            //}
         }
 
         public int ExpEarned(User user, Enemy enemy)

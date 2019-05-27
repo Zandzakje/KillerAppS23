@@ -31,6 +31,11 @@ namespace RpgApp.Controllers
                     LowHp = user.LowHp,
                     CurrentHp = user.CurrentHp,
                     Message = user.Message,
+                    ExpMessage = user.ExpMessage,
+                    ClassMessage = user.ClassMessage,
+                    Faster = user.Faster,
+                    ClassUp = user.ClassUp,
+                    Defeated = user.Defeated
                 },
 
                 enemyViewModel = new EnemyViewModel
@@ -41,7 +46,9 @@ namespace RpgApp.Controllers
                     HalfHp = enemy.HalfHp,
                     LowHp = enemy.LowHp,
                     CurrentHp = enemy.CurrentHp,
-                    Message = enemy.Message
+                    Message = enemy.Message,
+                    Faster = enemy.Faster,
+                    Defeated = enemy.Defeated
                 }
             };
             
@@ -90,6 +97,11 @@ namespace RpgApp.Controllers
             user.ExpMessage = "";
             user.ClassMessage = "";
             enemy.Message = "";
+            user.Faster = false;
+            enemy.Faster = false;
+            user.ClassUp = false;
+            user.Defeated = false;
+            enemy.Defeated = false;
             
             combat.GetUpdateUser(user);
 

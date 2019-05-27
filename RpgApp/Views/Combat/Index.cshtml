@@ -43,37 +43,37 @@
         <img src="" id="3" />
     </div>
     <div>
-        @*@if (Model.userViewModel.user.Speed >= Model.enemyViewModel.enemy.Speed)
+        @if (Model.userViewModel.Faster)
         {
-            <label>@Model.userViewModel.user.Message</label><br />
+            <label>@Model.userViewModel.Message</label><br />
 
-            if (Model.enemyViewModel.enemy.CurrentHp <= 0)
+            if (Model.enemyViewModel.Defeated)
             {
-                <label>@Model.userViewModel.user.ExpMessage</label><br />
+                <label>@Model.userViewModel.ExpMessage</label><br />
 
-                if (Model.userViewModel.user.Level == 50)
+                if (Model.userViewModel.ClassUp)
                 {
-                    <label>@Model.userViewModel.user.ClassMessage</label>
+                    <label>@Model.userViewModel.ClassMessage</label>
                 }
             }
             else
             {
-                <label>@Model.enemyViewModel.enemy.Message</label>
+                <label>@Model.enemyViewModel.Message</label>
             }
         }
         else
         {
-            <label>@Model.enemyViewModel.enemy.Message</label><br />
+            <label>@Model.enemyViewModel.Message</label><br />
 
-            if (Model.userViewModel.user.CurrentHp > 0)
+            if (Model.userViewModel.Defeated == false)
             {
-                <label>@Model.userViewModel.user.Message</label><br />
+                <label>@Model.userViewModel.Message</label><br />
 
-                if (Model.enemyViewModel.enemy.CurrentHp <= 0)
+                if (Model.enemyViewModel.Defeated)
                 {
-                    <label>@Model.userViewModel.user.ExpMessage</label>
+                    <label>@Model.userViewModel.ExpMessage</label>
                 }
             }
-        }*@
+        }
     </div>
 </body>
