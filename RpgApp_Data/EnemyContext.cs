@@ -9,7 +9,7 @@ using System.Data;
 
 namespace RpgApp_Data
 {
-    public class EnemySql
+    public class EnemyContext
     {
         ConnectionString connString = new ConnectionString();
 
@@ -31,13 +31,14 @@ namespace RpgApp_Data
                     {
                         while (reader.Read())
                         {
-                            e.Name = reader.GetString(0);
-                            e.Level = reader.GetInt32(1);
-                            e.MaxHp = reader.GetInt32(2);
-                            e.Attack = reader.GetInt32(3);
-                            e.Defense = reader.GetInt32(4);
-                            e.Speed = reader.GetInt32(5);
-                            e.Type = reader.GetString(6);
+                            e.CharacterId = reader.GetInt32(0);
+                            e.Name = reader.GetString(1);
+                            e.Level = reader.GetInt32(2);
+                            e.MaxHp = reader.GetInt32(3);
+                            e.Attack = reader.GetInt32(4);
+                            e.Defense = reader.GetInt32(5);
+                            e.Speed = reader.GetInt32(6);
+                            e.Type = reader.GetString(7);
 
                             //double half = e.MaxHp * 0.5;
                             //Math.Round(half, 0, MidpointRounding.AwayFromZero);

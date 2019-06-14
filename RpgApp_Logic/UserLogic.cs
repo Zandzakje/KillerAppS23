@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RpgApp_Logic.Interfaces;
 using RpgApp_Model;
 
 namespace RpgApp_Logic
 {
-    public class UserLogic
+    public class UserLogic : IUserLogic
     {
         public int Healing(User user)
         {
@@ -28,11 +29,13 @@ namespace RpgApp_Logic
             switch (user.Class)
             {
                 case "Knight":
+                case "Paladin":
                     user.MaxHp = user.MaxHp + normal;
                     user.Attack = user.Attack + strong;
                     user.Defense = user.Defense + normal;
                     user.Speed = user.Speed + weak;
                     break;
+                case "Huntress":
                 case "Valkyrie":
                     user.MaxHp = user.MaxHp + normal;
                     user.Attack = user.Attack + normal;
@@ -40,6 +43,7 @@ namespace RpgApp_Logic
                     user.Speed = user.Speed + strong;
                     break;
                 case "Spooky":
+                case "Nightmare":
                     user.MaxHp = user.MaxHp + normal;
                     user.Attack = user.Attack + normal;
                     user.Defense = user.Defense + normal;

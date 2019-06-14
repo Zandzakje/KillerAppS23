@@ -9,7 +9,7 @@ using System.Data;
 
 namespace RpgApp_Data
 {
-    public class UserSql
+    public class UserContext
     {
         ConnectionString connString = new ConnectionString();
 
@@ -67,13 +67,13 @@ namespace RpgApp_Data
             }
         }
 
-        public void RegistryUser(User user)
+        public void RegisterUser(User user)
         {
             using (connString.connectionString)
             {
                 connString.connectionString.Open();
 
-                SqlCommand cmd = new SqlCommand(RegistryClass(user.Class), connString.connectionString);
+                SqlCommand cmd = new SqlCommand(RegisterClass(user.Class), connString.connectionString);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@name", user.Name);
                 cmd.Parameters.AddWithValue("@password", user.Password);
@@ -85,7 +85,7 @@ namespace RpgApp_Data
             }
         }
 
-        public string RegistryClass(string klasse)
+        public string RegisterClass(string klasse)
         {
             string q = null;
 
@@ -163,6 +163,28 @@ namespace RpgApp_Data
                 cmd.Parameters.AddWithValue("@currentexp", user.CurrentExp);
                 cmd.Parameters.AddWithValue("@nextexp", user.NextExp);
                 cmd.Parameters.AddWithValue("@totalexp", user.TotalExp);
+                cmd.ExecuteNonQuery();
+
+                connString.connectionString.Close();
+            }
+        }
+
+        public void AddBattleLog(User user, Enemy enemy)
+        {
+            ConnectionString connString = new ConnectionString();
+
+            using (connString.connectionString)
+            {
+                connString.connectionString.Open();
+
+                SqlCommand cmd = new SqlCommand("AddBattleLog", connString.connectionString);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@userid", user.CharacterId);
+                cmd.Parameters.AddWithValue("@enemyid", enemy.CharacterId);
+                cmd.Parameters.AddWithValue("@username", user.Name);
+                cmd.Parameters.AddWithValue("@enemyname", enemy.Name);
+                cmd.Parameters.AddWithValue("@battleresult", user.Result);
+
                 cmd.ExecuteNonQuery();
 
                 connString.connectionString.Close();

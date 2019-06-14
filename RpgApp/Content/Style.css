@@ -87,17 +87,17 @@ meter{
     float: right;
 }
 
-/*.expBar {height: 7px;}
+.expBar {height: 7px;}
     .expBar::-webkit-meter-bar {background: #e6e6e9;}
     .expBar::-webkit-meter-optimum-value {background: blue;}
-    .expBar::-webkit-meter-high-value{background: blue;}
-    .expBar::-webkit-meter-low-value{background: blue;}
+    .expBar::-webkit-meter-high-value {background: blue;}
+    .expBar::-webkit-meter-low-value {background: blue;}
 
 .expBar2 {height: 7px;}
     .expBar2::-webkit-meter-bar {background: black;}
     .expBar2::-webkit-meter-optimum-value {background: black;}
-    .expBar2::-webkit-meter-high-value{background: black;}
-    .expBar2::-webkit-meter-low-value{background: black;}*/
+    .expBar2::-webkit-meter-high-value {background: black;}
+    .expBar2::-webkit-meter-low-value {background: black;}
 
 
 #Button1 {

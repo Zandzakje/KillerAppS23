@@ -16,5 +16,18 @@ namespace RpgApp.Models.ViewModels
         public string Message { get; set; }
         public bool Faster { get; set; }
         public bool Defeated { get; set; }
+
+        public EnemyViewModel(string name, int level, int maxHp, int halfHp, int lowHp, double currentHp, string message, bool faster, bool defeated)
+        {
+            Name = name;
+            Level = level;
+            MaxHp = maxHp;
+            HalfHp = halfHp;
+            LowHp = lowHp;
+            CurrentHp = currentHp;
+            Message = message;
+            Faster = faster;
+            Defeated = defeated;
+        }
     }
 }

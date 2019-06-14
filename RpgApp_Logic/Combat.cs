@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RpgApp_Logic.Interfaces;
 using RpgApp_Data;
 using RpgApp_Model;
 
-namespace RpgApp_Logic
+namespace RpgApp_Logic                              
 {
-    public class Combat
+    public class Combat : ICombat
     {
-        UserSql userSql = new UserSql();
-        EnemySql enemySql = new EnemySql();
+        UserContext userContext = new UserContext();
+        EnemyContext enemyContext = new EnemyContext();
 
-        public void InitializeCombat(User user, Enemy enemy)
+      public void InitializeCombat(User user, Enemy enemy)
         {
             if (user.CurrentHp == 0 && enemy.CurrentHp == 0)
             {
@@ -206,6 +207,7 @@ namespace RpgApp_Logic
             user.CurrentExp = user.CurrentExp + user.Exp;
             user.TotalExp = user.TotalExp + user.Exp;
             user.ExpMessage = "You earned " + user.Exp + " exp!";
+            enemy.Defeated = true;
 
             if (user.CurrentExp >= user.NextExp)
             {
@@ -215,10 +217,11 @@ namespace RpgApp_Logic
                 user = userLogic.LevelUp(user);
                 user.ExpMessage = user.ExpMessage + " Level up!";
 
-                if (user.Level == 50)
+                if (user.Level == 3)
                 {
                     if (user.Class == "Knight" || user.Class == "Huntress" || user.Class == "Spooky")
                     {
+                        user.ClassUp = true;
                         ClassUp(user);
                     }
                 }
@@ -260,12 +263,30 @@ namespace RpgApp_Logic
 
         public Enemy GetNewEnemy(int number)
         {
-            return enemySql.GenerateEnemy(number);
+            return enemyContext.GenerateEnemy(number);
         }
 
         public void GetUpdateUser(User user)
         {
-            userSql.UpdateUser(user);
+            userContext.UpdateUser(user);
+        }
+
+        public void GetAddBattleLog(User user, Enemy enemy)
+        {
+            if (enemy.CurrentHp <= 0)
+            {
+                user.Result = "Won";
+            }
+            else if (user.CurrentHp <= 0)
+            {
+                user.Result = "Lost";
+            }
+            else if (user.CurrentHp > 0 && enemy.CurrentHp > 0)
+            {
+                user.Result = "Fled";
+            }
+
+            userContext.AddBattleLog(user, enemy);
         }
     }
 }

@@ -19,40 +19,14 @@ namespace RpgApp.Controllers
             User user = (User)Session["user"];            
             Enemy enemy = (Enemy)Session["enemy"];
 
+            //huidige hp van de user en enemy vaststellen bij het begin van een gevecht
+            combat.InitializeCombat(user, enemy);
+
             CombatViewModel combatViewModel = new CombatViewModel
             {
-                userViewModel = new UserViewModel
-                {
-                    Name = user.Name,
-                    Level = user.Level,
-                    Class = user.Class,
-                    MaxHp = user.MaxHp,
-                    HalfHp = user.HalfHp,
-                    LowHp = user.LowHp,
-                    CurrentHp = user.CurrentHp,
-                    Message = user.Message,
-                    ExpMessage = user.ExpMessage,
-                    ClassMessage = user.ClassMessage,
-                    Faster = user.Faster,
-                    ClassUp = user.ClassUp,
-                    Defeated = user.Defeated
-                },
-
-                enemyViewModel = new EnemyViewModel
-                {
-                    Name = enemy.Name,
-                    Level = enemy.Level,
-                    MaxHp = enemy.MaxHp,
-                    HalfHp = enemy.HalfHp,
-                    LowHp = enemy.LowHp,
-                    CurrentHp = enemy.CurrentHp,
-                    Message = enemy.Message,
-                    Faster = enemy.Faster,
-                    Defeated = enemy.Defeated
-                }
+                userViewModel = new UserViewModel(user.Name, user.Level, user.Class, user.CurrentExp, user.NextExp, user.TotalExp, user.MaxHp, user.HalfHp, user.LowHp, user.CurrentHp, user.Message, user.ExpMessage, user.ClassMessage, user.Faster, user.ClassUp, user.Defeated),
+                enemyViewModel = new EnemyViewModel(enemy.Name, enemy.Level, enemy.MaxHp, enemy.HalfHp, enemy.LowHp, enemy.CurrentHp, enemy.Message, enemy.Faster, enemy.Defeated)
             };
-            
-            combat.InitializeCombat(user, enemy);
 
             return View(combatViewModel);
         }
@@ -90,6 +64,9 @@ namespace RpgApp.Controllers
             User user = (User)Session["user"];
             Enemy enemy = (Enemy)Session["enemy"];
 
+            combat.GetUpdateUser(user);
+            combat.GetAddBattleLog(user, enemy);
+
             //bepaalde variables resetten
             user.CurrentHp = 0;
             enemy.CurrentHp = 0;
@@ -102,8 +79,6 @@ namespace RpgApp.Controllers
             user.ClassUp = false;
             user.Defeated = false;
             enemy.Defeated = false;
-            
-            combat.GetUpdateUser(user);
 
             return RedirectToAction("Index", "Surface");
         }

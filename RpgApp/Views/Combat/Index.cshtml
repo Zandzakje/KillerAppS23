@@ -18,7 +18,8 @@
         <label class="level">lv. @Model.userViewModel.Level</label><br />
         <meter id="HpUser" name="player" value="@Model.userViewModel.CurrentHp" min="0" max="@Model.userViewModel.MaxHp" low="@Model.userViewModel.LowHp" high="@Model.userViewModel.HalfHp" optimum="@Model.userViewModel.MaxHp"></meter><br />
         <label>HP: @Model.userViewModel.CurrentHp/@Model.userViewModel.MaxHp</label>
-        @*<meter class="expBar" value="55" min="0" max="100" low="15" high="50" optimum="100"></meter>*@
+        <meter class="expBar" value="@Model.userViewModel.CurrentExp" min="0" max="@Model.userViewModel.NextExp" low="0" high="0" optimum="@Model.userViewModel.CurrentExp"></meter><br />
+        <label>Exp: @Model.userViewModel.CurrentExp/@Model.userViewModel.NextExp</label>
     </div>
     <div id="enemy">
         <label>@Model.enemyViewModel.Name</label>
@@ -65,13 +66,18 @@
         {
             <label>@Model.enemyViewModel.Message</label><br />
 
-            if (Model.userViewModel.Defeated == false)
+            if (!Model.userViewModel.Defeated)
             {
                 <label>@Model.userViewModel.Message</label><br />
 
                 if (Model.enemyViewModel.Defeated)
                 {
                     <label>@Model.userViewModel.ExpMessage</label>
+
+                    if (Model.userViewModel.ClassUp)
+                    {
+                        <label>@Model.userViewModel.ClassMessage</label>
+                    }
                 }
             }
         }

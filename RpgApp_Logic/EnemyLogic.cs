@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RpgApp_Logic.Interfaces;
 using RpgApp_Model;
 
 namespace RpgApp_Logic
 {
-    public class EnemyLogic
+    public class EnemyLogic : IEnemyLogic
     {
         public int RandomNumber()
         {

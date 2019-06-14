@@ -47,7 +47,7 @@ namespace RpgApp.Controllers
         public ActionResult RegisterCheck(User user)
         {
             Login login = new Login();
-            login.GetRegistryUser(user);
+            login.GetRegisterUser(user);
 
             return RedirectToAction("Index", "Login");
         }

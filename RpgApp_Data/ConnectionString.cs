@@ -13,7 +13,12 @@ namespace RpgApp_Data
     {
         public SqlConnection connectionString = new SqlConnection
         (
-            @"Data Source = (LocalDB)\MSSQLLocalDB; AttachDbFilename = C:\Users\Gebruiker\Desktop\School\Visual Studio\ICT_Software\Semester 2\RpgApp\RpgApp\App_Data\RpgDB.mdf; Integrated Security = True;"
+            @"Server=mssql.fhict.local;Database=dbi406383;User Id=dbi406383;Password=Appeltelers383;"
         );
+
+        //public SqlConnection connectionString = new SqlConnection
+        //(
+        //    @"Data Source = (LocalDB)\MSSQLLocalDB; AttachDbFilename = C:\Users\Gebruiker\Desktop\School\Visual Studio\ICT_Software\Semester 2\RpgApp\RpgApp\App_Data\RpgDB.mdf; Integrated Security = True;"
+        //);
     }
 }

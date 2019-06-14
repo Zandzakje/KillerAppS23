@@ -20,5 +20,6 @@ namespace RpgApp_Model
         public int Heal { get; set; }
 
         public bool ClassUp { get; set; }
+        public string Result { get; set; }          //string that can contain "Won", "Lost" or Flee"
     }
 }
